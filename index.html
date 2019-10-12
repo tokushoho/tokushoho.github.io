@@ -4,9 +4,24 @@
 <meta name="viewport" content="width = device-width, initial-scale = 1, user-scalable = no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <div class="container">
-    <div class="row" >
-        <div class="col-10" style="margin: 40px 0;" id=main>
-            <h3>特定商取引法に基づく表記</h3>
+    <div class="row">
+        <div class="col-12" style="margin: 40px 0;" id=main>
+            <div id="instraction" style="display:none;">
+                <h3>特定商取引法に基づく表記ジェネレーター</h3>
+                <p>URLにパラメータを指定すると特定商取引法表記を自動的に生成します。パラメータを指定しないと、適当なデフォルト値や
+                    (主にデジタルコンテンツ用の)テンプレを表記します。URLがカッコ悪すぎるので、デフォルトではブラウザのアドレスバーからパラメータを削除しますが、
+                    削除したくないときは、URL末尾に&amp;edit=true
+                    と付してください。</p>
+                <h5>例1)最低限:</h5>
+                <p><a target="_blank"
+                        href="https://tokushoho.github.io/?company=株式会社サンプル&charge=サンプル太郎&address=東京都港区永田町1-1">https://tokushoho.github.io/?company=株式会社サンプル&amp;charge=サンプル太郎&amp;address=東京都港区永田町1-1</a>
+                </p>
+                <h5>例2)全部指定:</h5>
+                <p><a target="_blank"
+                        href="https://tokushoho.github.io/?company=株式会社サンプル&charge=サンプル太郎&address=大阪府大阪市西区本田１−１&price=お見積りにて決定&contact=弊社お問い合わせフォームにて受付&extra=離島は2,000円追加&payment=銀行振込のみ&shipping=発注後7日以内&refund=商品受け取り後14日以内">https://tokushoho.github.io/?company=株式会社サンプル&amp;charge=サンプル太郎&amp;address=大阪府大阪市西区本田１−１&amp;contact=弊社お問い合わせフォームにて受付&amp;extra=離島は2,000円追加&amp;payment=銀行振込のみ&amp;shipping=発注後7日以内&amp;refund=商品受け取り後14日以内</a>
+                </p>
+            </div>
+            <h4>特定商取引法に基づく表記</h4>
             <table class="table table-bordered table table-bordered table-hover">
                 <tr>
                     <td width=50% class="table-secondary"><strong>事業者名 </strong> </td>
@@ -50,9 +65,9 @@
     </div>
 </div>
 <script>
-    let getArg = ( arg ) => {
+    let getArg = (arg) => {
         //getのパラメータを返す。
-        var arg =new Object;
+        var arg = new Object;
         var pair = location.search.substring(1).split('&');
         for (var i = 0; pair[i]; i++) {
             var kv = pair[i].split('=');
@@ -60,29 +75,29 @@
         }
         return arg;
     }
-    var def= new Object;
+    var def = new Object;
     arg = getArg();
     //console.log( Object.keys(arg).length );
-    if (false) {
-        document.getElementById("main").innerHTML =
-        '<h3>特定商取引法に基づく表記ジェネレーター</h3>'
-        '<p>例)</p>'; 
-    } else {
-        list ={
-            company :"株式会社XXXXXX" , 
-            charge : "XXX X太郎" ,
-            address　:"XX県XX市XX町XX丁目XX番地" , 
-            contact : "xxx@xxxx.com", 
-            price : "各Webページに記載" ,
-            extra : "ご利用いただくために必要なインターネット接続環境、ソフトウェア、通信料金等はお客様の負担となります。" ,
-            payment : "クレジットカードなど" ,
-            shipping : "ご購入手続き後、即日でご利用可能です（特別な条件がある場合を除く）。" ,
-            refund : "ご購入手続き後のキャンセルはお受けできません。" 
+    if (0 === Object.keys(arg).length) {
+        document.getElementById("instraction").style.display ="block";
+    }
+
+    if (true) {
+        list = {
+            company: "株式会社XXXXXX",
+            charge: "XXX X太郎",
+            address: "XX県XX市XX町XX丁目XX番地",
+            contact: "xxx@xxxx.com",
+            price: "各Webページに記載",
+            extra: "ご利用いただくために必要なインターネット接続環境、ソフトウェア、通信料金等はお客様の負担となります。",
+            payment: "クレジットカードなど",
+            shipping: "ご購入手続き後、即日でご利用可能です（特別な条件がある場合を除く）。",
+            refund: "ご購入手続き後のキャンセルはお受けできません。"
         };
-        for( l in list ){ 
+        for (l in list) {
             console.log(l);
-            document.getElementById( l ).innerText =  ("undefined" !== typeof arg[l]) ?
-                decodeURI(arg[l]).substring(0, 64) : list[ l ];
+            document.getElementById(l).innerText = ("undefined" !== typeof arg[l]) ?
+                decodeURI(arg[l]).substring(0, 64) : list[l];
         }
         "true" === arg["edit"] ? console.log("edit exists") : history.replaceState('', '', '/');
     }
